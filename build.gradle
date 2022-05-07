@@ -1,3 +1,5 @@
+import io.franzbecker.gradle.lombok.task.DelombokTask
+
 import java.time.Instant
 
 plugins {
