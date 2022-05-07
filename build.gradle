@@ -26,17 +26,6 @@ test {
     useJUnitPlatform()
 }
 /*
-  Javadoc
- */
-javadoc.options.addStringOption('Xdoclint:none', '-quiet')
-javadoc {
-    title("${project.name} JavaDoc v${project.version}")
-    exclude Set.of('**/internal/**', '**/impl/**', '**Impl', 'Simple**')
-    dependsOn delombok
-    source = delombok.outputDir
-    failOnError = false
-}
-/*
   Java
  */
 def targetJavaVersion = 17
@@ -54,6 +43,7 @@ java {
 lombok {
     version = "1.18.24"
 }
+
 task delombok(type: DelombokTask, dependsOn: compileJava) {
     ext.outputDir = file("$buildDir/delombok")
     outputs.dir(outputDir)
@@ -65,7 +55,17 @@ task delombok(type: DelombokTask, dependsOn: compileJava) {
         outputDir.deleteDir()
     }
 }
-
+/*
+  Javadoc
+ */
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+javadoc {
+    title("${project.name} JavaDoc v${project.version}")
+    exclude Set.of('**/internal/**', '**/impl/**', '**Impl', 'Simple**')
+    dependsOn delombok
+    source = delombok.outputDir
+    failOnError = false
+}
 /*
  Misc: Some stuff for build info generation
  */
